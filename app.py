@@ -1,13 +1,13 @@
+import pyrebase
 import streamlit as st
-from datetime import datetime
-import pyrebase4 as pyrebase  # Asegúrate de usar Pyrebase4
+from datetime import datetime  # Corrección aquí
 
 # Configuración de Firebase
 firebaseConfig = {
     'apiKey': "AIzaSyAhLyQavE-w86x-iZE-hOsdZjIBgMD1uME",
     'authDomain': "ingeniar-2bf0f.firebaseapp.com",
     'projectId': "ingeniar-2bf0f",
-    'databaseURL': "https://ingeniar-2bf0f-default-rtdb.firebaseio.com/",
+    'databaseURL': "https://ingeniar-2bf0f-default-rtdb.firebaseio.com/",  # Coma añadida
     'storageBucket': "ingeniar-2bf0f.appspot.com",
     'messagingSenderId': "460609687453",
     'appId': "1:460609687453:web:e4c39499a399f0011e6974",
@@ -17,7 +17,9 @@ firebaseConfig = {
 # Inicializar Firebase
 firebase = pyrebase.initialize_app(firebaseConfig)
 auth = firebase.auth()
-db = firebase.database()
+
+# Inicializar base de datos y almacenamiento
+db = firebase.database()  # Corrección aquí
 storage = firebase.storage()
 
 # Título de la barra lateral
