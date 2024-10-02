@@ -40,8 +40,6 @@ if choice == 'Inicio de sesión':
     if st.sidebar.button('Iniciar sesión'):
         try:
             user = auth.get_user_by_email(email)
-            # Aquí se debe verificar la contraseña. Firebase Admin SDK no permite verificar contraseñas.
-            # Podrías usar un sistema adicional o simplemente permitir que el usuario inicie sesión sin verificar la contraseña.
             st.success("Inicio de sesión exitoso")
         except Exception as e:
             st.error(f"Error: {e}")
