@@ -17,14 +17,15 @@ firebaseConfig = {
     "universe_domain": "googleapis.com"
 }
 
-# Inicializar la aplicación de Firebase
-try:
-    cred = credentials.Certificate(firebaseConfig)
-    firebase_admin.initialize_app(cred, {
-        'databaseURL': 'https://ingeniar-2bf0f-default-rtdb.firebaseio.com/'
-    })
-except Exception as e:
-    st.error(f"Error inicializando Firebase: {e}")
+# Inicializar Firebase solo si no está inicializado
+if not firebase_admin._apps:
+    try:
+        cred = credentials.Certificate(firebaseConfig)
+        firebase_admin.initialize_app(cred, {
+            'databaseURL': 'https://ingeniar-2bf0f-default-rtdb.firebaseio.com/'
+        })
+    except Exception as e:
+        st.error(f"Error inicializando Firebase: {e}")
 
 # Título de la barra lateral
 st.sidebar.title("IngenIAr")
