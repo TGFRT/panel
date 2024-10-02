@@ -1,24 +1,12 @@
-import pyrebase4 as pyrebase
+import firebase_admin
+from firebase_admin import credentials, auth, db
 import streamlit as st
-from datetime import datetime
 
-# Configuración de Firebase
-firebaseConfig = {
-    'apiKey': "AIzaSyAhLyQavE-w86x-iZE-hOsdZjIBgMD1uME",
-    'authDomain': "ingeniar-2bf0f.firebaseapp.com",
-    'projectId': "ingeniar-2bf0f",
-    'databaseURL': "https://ingeniar-2bf0f-default-rtdb.firebaseio.com/",
-    'storageBucket': "ingeniar-2bf0f.appspot.com",
-    'messagingSenderId': "460609687453",
-    'appId': "1:460609687453:web:e4c39499a399f0011e6974",
-    'measurementId': "G-178TVKQJX9"
-}
-
-# Inicializar Firebase
-firebase = pyrebase.initialize_app(firebaseConfig)
-auth = firebase.auth()
-db = firebase.database()
-storage = firebase.storage()
+# Inicializar la aplicación de Firebase
+cred = credentials.Certificate("credentials.json")  # Asegúrate de que este archivo esté en la ruta correcta
+firebase_admin.initialize_app(cred, {
+    'databaseURL': 'https://ingeniar-2bf0f-default-rtdb.firebaseio.com/'
+})
 
 # Título de la barra lateral
 st.sidebar.title("IngenIAr")
@@ -32,15 +20,16 @@ password = st.sidebar.text_input('Ingrese su contraseña', type='password')  # S
 if choice == 'Inicio de sesión':
     if st.sidebar.button('Iniciar sesión'):
         try:
-            auth.sign_in_with_email_and_password(email, password)
+            user = auth.get_user_by_email(email)
             st.success("Inicio de sesión exitoso")
+            # Aquí puedes agregar más lógica según tus necesidades
         except Exception as e:
             st.error(f"Error: {e}")
 
 if choice == 'Registro':
     if st.sidebar.button('Registrar'):
         try:
-            auth.create_user_with_email_and_password(email, password)
+            user = auth.create_user(email=email, password=password)
             st.success("Registro exitoso")
         except Exception as e:
             st.error(f"Error: {e}")
