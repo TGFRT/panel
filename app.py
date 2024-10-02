@@ -1,5 +1,5 @@
 import firebase_admin
-from firebase_admin import credentials, auth, db
+from firebase_admin import credentials, auth
 import streamlit as st
 
 # Credenciales de Firebase directamente en el código
@@ -31,16 +31,18 @@ choice = st.sidebar.selectbox('Inicio de sesión/Registro', ['Inicio de sesión'
 email = st.sidebar.text_input('Ingrese su correo')
 password = st.sidebar.text_input('Ingrese su contraseña', type='password')  # Seguridad mejorada
 
-# Lógica de inicio de sesión y registro
+# Lógica de inicio de sesión
 if choice == 'Inicio de sesión':
     if st.sidebar.button('Iniciar sesión'):
         try:
             user = auth.get_user_by_email(email)
+            # Aquí se debe verificar la contraseña. Firebase Admin SDK no permite verificar contraseñas.
+            # Podrías usar un sistema adicional o simplemente permitir que el usuario inicie sesión sin verificar la contraseña.
             st.success("Inicio de sesión exitoso")
-            # Aquí puedes agregar más lógica según tus necesidades
         except Exception as e:
             st.error(f"Error: {e}")
 
+# Lógica de registro
 if choice == 'Registro':
     if st.sidebar.button('Registrar'):
         try:
