@@ -1,22 +1,30 @@
+
+import pyrebase
 import streamlit as st
-from google_auth_st import add_auth
+from datatime import datetime
 
-# Configurar la página
-st.set_page_config(page_title="Mi App", page_icon="🔒")
+firebaseConfig = {
+    'apiKey': "AIzaSyAhLyQavE-w86x-iZE-hOsdZjIBgMD1uME",
+    'authDomain': "ingeniar-2bf0f.firebaseapp.com",
+    'projectId': "ingeniar-2bf0f",
+    'databaseURL': "https://ingeniar-2bf0f-default-rtdb.firebaseio.com/"
+    'storageBucket': "ingeniar-2bf0f.appspot.com",
+    'messagingSenderId': "460609687453",
+    'appId': "1:460609687453:web:e4c39499a399f0011e6974",
+    'measurementId': "G-178TVKQJX9"
+  }
 
-# Advertencia antes de iniciar sesión
-st.warning("Inicia sesión para continuar.")
+firebase = pyrebase.initialize_app(firebaseConfig)
+auth = firebase.auth()
 
-# Obtener los secretos
-client_id = st.secrets["google"]["client_id"]
-client_secret = st.secrets["google"]["client_secret"]
-redirect_uri = st.secrets["google"]["redirect_uris"][0]
+db = firebase.databse()
+storage = firebase.storage()
 
-# Agregar autenticación
-add_auth(client_id=client_id, client_secret=client_secret, redirect_uri=redirect_uri)
 
-if 'email' in st.session_state:
-    st.success("¡Bienvenido de nuevo!")
-    st.write(f"Tu correo: {st.session_state.email}")
-else:
-    st.warning("Por favor, inicia sesión.")
+st.sidebar.title("IngenIAr")
+
+
+choice = st.sidebar.selectbox('Inicio de sesión/Registro',['Inicio de sesión','Registro'])
+email = st.sidebar.text_input('Ingrese su correo')
+password = st.sidebar.text_input('Ingrese su contraseña')
+
